@@ -21,7 +21,9 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<UserFeedback> UserFeedbacks { get; set; }
         public DbSet<UserReservation> UserReservations { get; set; }
         public DbSet<UserSupportRequest> UserSupportRequests { get; set; }
-        
-        
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
+
     }
 }
