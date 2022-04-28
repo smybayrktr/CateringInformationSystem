@@ -43,14 +43,14 @@ namespace Business.Abstract
             return new SuccessResult("Silindi");
         }
 
-        public IResult GetDepositByUserId(int id)
+        public IDataResult<Deposit> GetDepositByUserId(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<Deposit>(_depositDal.Get(p => p. == id));
         }
 
         public IDataResult<Deposit> GetDepositByUserSchoolNumber(string number)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<Deposit>(_depositDal.Get(p=>p.S))
         }
     }
 }
