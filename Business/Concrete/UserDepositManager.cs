@@ -1,34 +1,45 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 
 namespace Business.Abstract
 {
     public class UserDepositManager:IUserDepositService
     {
+        private IUserDepositDal _userDepositDal;
+
+        public UserDepositManager(IUserDepositDal userDepositDal)
+        {
+            _userDepositDal = userDepositDal;
+        }
+
         public IDataResult<List<UserDeposit>> GetUserDeposits()
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<List<UserDeposit>>(_userDepositDal.GetAll());
         }
 
         public IDataResult<UserDeposit> GetUserDeposit(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<UserDeposit>(_userDepositDal.Get(i => i.Id == id));
         }
 
         public IResult AddUserDeposit(UserDeposit userDeposit)
         {
-            throw new System.NotImplementedException();
+            _userDepositDal.Add(userDeposit);
+            return new SuccessResult();
         }
 
         public IResult UpdateUserDeposit(UserDeposit userDeposit)
         {
-            throw new System.NotImplementedException();
+            _userDepositDal.Update(userDeposit);
+            return new SuccessResult();
         }
 
-        public IResult DeleteUserDeposit(int id)
+        public IResult DeleteUserDeposit(UserDeposit userDeposit)
         {
-            throw new System.NotImplementedException();
+            _userDepositDal.Delete(userDeposit);
+            return new SuccessResult();
         }
     }
 }

@@ -1,34 +1,46 @@
 ﻿using System.Collections.Generic;
+using Business.Abstract;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 
-namespace Business.Abstract
+namespace Business.Concrete
 {
     public class FeedbackManager:IFeedbackService
     {
+        private IFeedbackDal _feedbackDal;
+
+        public FeedbackManager(IFeedbackDal feedbackDal)
+        {
+            _feedbackDal = feedbackDal;
+        }
+
         public IDataResult<List<Feedback>> GetFeedbacks()
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<List<Feedback>>(_feedbackDal.GetAll());
         }
 
         public IDataResult<Feedback> GetFeedback(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<Feedback>(_feedbackDal.Get(i => i.Id == id));
         }
 
-        public IDataResult<Feedback> AddFeedback(Feedback feedback)
+        public IResult AddFeedback(Feedback feedback)
         {
-            throw new System.NotImplementedException();
+            _feedbackDal.Add(feedback);
+            return new SuccessResult();
         }
 
-        public IDataResult<Feedback> UpdateFeedback(Feedback feedback)
+        public IResult UpdateFeedback(Feedback feedback)
         {
-            throw new System.NotImplementedException();
+            _feedbackDal.Update(feedback);
+            return new SuccessResult();
         }
 
-        public IResult DeleteFeedback(int id)
-        {
-            throw new System.NotImplementedException();
+        public IResult DeleteFeedback(Feedback feedback)
+        { 
+            _feedbackDal.Delete(feedback);
+            return new SuccessResult();
         }
 
         public IDataResult<Feedback> GetFeedbackByUserId(int id)

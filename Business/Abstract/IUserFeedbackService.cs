@@ -10,6 +10,6 @@ namespace Business.Abstract
         public IDataResult<UserFeedback> GetUserFeedback(int id);
         public IResult AddUserFeedback(UserFeedback userFeedback);
         public IResult UpdateUserFeedback(UserFeedback userFeedback);
-        public IResult DeleteUserFeedback(int id);
+        public IResult DeleteUserFeedback(UserFeedback userFeedback);
     }
 }

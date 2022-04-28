@@ -10,6 +10,6 @@ namespace Business.Abstract
         public IDataResult<UserSupportRequest> GetUserSupportRequest(int id);
         public IResult AddUserSupportRequest(UserSupportRequest userSupportRequest);
         public IResult UpdateUserSupportRequest(UserSupportRequest userSupportRequest);
-        public IResult DeleteUserSupportRequest(int id);
+        public IResult DeleteUserSupportRequest(UserSupportRequest userSupportRequest);
     }
 }

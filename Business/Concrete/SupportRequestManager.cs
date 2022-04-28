@@ -1,34 +1,45 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 
 namespace Business.Abstract
 {
     public class SupportRequestManager:ISupportRequestService
     {
+        private ISupportRequestDal _supportRequestDal;
+
+        public SupportRequestManager(ISupportRequestDal supportRequestDal)
+        {
+            _supportRequestDal = supportRequestDal;
+        }
+
         public IDataResult<List<SupportRequest>> GetSupportRequests()
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<List<SupportRequest>>(_supportRequestDal.GetAll());
         }
 
         public IDataResult<SupportRequest> GetSupportRequest(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<SupportRequest>(_supportRequestDal.Get(i => i.Id == id));
         }
 
         public IResult AddSupportRequest(SupportRequest supportRequest)
         {
-            throw new System.NotImplementedException();
+            _supportRequestDal.Add(supportRequest);
+            return new SuccessResult();
         }
 
         public IResult UpdateSupportRequest(SupportRequest supportRequest)
         {
-            throw new System.NotImplementedException();
+            _supportRequestDal.Update(supportRequest);
+            return new SuccessResult();
         }
 
-        public IResult DeleteSupportRequest(int id)
+        public IResult DeleteSupportRequest(SupportRequest supportRequest)
         {
-            throw new System.NotImplementedException();
+            _supportRequestDal.Delete(supportRequest);
+            return new SuccessResult();
         }
 
         public IDataResult<SupportRequest> GetSupportRequestByUserId(int id)

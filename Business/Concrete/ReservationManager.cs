@@ -1,34 +1,45 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 
 namespace Business.Abstract
 {
     public class ReservationManager:IReservationService
     {
+        private IReservationDal _reservationDal;
+
+        public ReservationManager(IReservationDal reservationDal)
+        {
+            _reservationDal = reservationDal;
+        }
+
         public IDataResult<List<Reservation>> GetReservations()
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<List<Reservation>>(_reservationDal.GetAll());
         }
 
         public IDataResult<Reservation> GetReservation(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<Reservation>(_reservationDal.Get(i => i.Id == id));
         }
 
         public IResult AddReservation(Reservation reservation)
         {
-            throw new System.NotImplementedException();
+            _reservationDal.Add(reservation);
+            return new SuccessResult();
         }
 
         public IResult UpdateReservation(Reservation reservation)
         {
-            throw new System.NotImplementedException();
+            _reservationDal.Update(reservation);
+            return new SuccessResult();
         }
 
-        public IResult DeleteReservation(int id)
+        public IResult DeleteReservation(Reservation reservation)
         {
-            throw new System.NotImplementedException();
+            _reservationDal.Delete(reservation);
+            return new SuccessResult();
         }
 
         public IDataResult<Reservation> GetReservationByUserId(int id)

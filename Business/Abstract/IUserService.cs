@@ -12,8 +12,7 @@ namespace Business.Abstract
         public IDataResult<User> GetUser(int id);
         public IResult AddUser(User user);
         public IResult UpdateUser(User user);
-        public IResult DeleteUser(int id);
-        public IDataResult<User> GetUserByUserId(int id);
+        public IResult DeleteUser(User user);
         public IDataResult<User> GetUserByUserSchoolNumber(string number);
         public IDataResult<List<OperationClaim>> GetClaims(User user);
     }

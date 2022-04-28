@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -36,21 +37,20 @@ namespace Business.Abstract
             return new SuccessResult("Güncellendi");
         }
 
-        public IResult DeleteDeposit(int id)
+        public IResult DeleteDeposit(Deposit deposit)
         {
-            var entity = _depositDal.Get(p => p.Id == id);
-            _depositDal.Delete(entity);
+            _depositDal.Delete(deposit);
             return new SuccessResult("Silindi");
         }
 
         public IDataResult<Deposit> GetDepositByUserId(int id)
         {
-            return new SuccessDataResult<Deposit>(_depositDal.Get(p => p. == id));
+            throw new NotImplementedException();
         }
 
         public IDataResult<Deposit> GetDepositByUserSchoolNumber(string number)
         {
-            return new SuccessDataResult<Deposit>(_depositDal.Get(p=>p.S))
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,34 +1,45 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 
 namespace Business.Abstract
 {
     public class UserSupportRequestManager : IUserSupportRequestService
     {
+        private IUserSupportRequestDal _userSupportRequestDal;
+
+        public UserSupportRequestManager(IUserSupportRequestDal userSupportRequestDal)
+        {
+            _userSupportRequestDal = userSupportRequestDal;
+        }
+
         public IDataResult<List<UserSupportRequest>> GetUserSupportRequests()
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<List<UserSupportRequest>>(_userSupportRequestDal.GetAll());
         }
 
         public IDataResult<UserSupportRequest> GetUserSupportRequest(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<UserSupportRequest>(_userSupportRequestDal.Get(i => i.Id == id));
         }
 
         public IResult AddUserSupportRequest(UserSupportRequest userSupportRequest)
         {
-            throw new System.NotImplementedException();
+            _userSupportRequestDal.Add(userSupportRequest);
+            return new SuccessResult();
         }
 
         public IResult UpdateUserSupportRequest(UserSupportRequest userSupportRequest)
         {
-            throw new System.NotImplementedException();
+            _userSupportRequestDal.Update(userSupportRequest);
+            return new SuccessResult();
         }
 
-        public IResult DeleteUserSupportRequest(int id)
+        public IResult DeleteUserSupportRequest(UserSupportRequest userSupportRequest)
         {
-            throw new System.NotImplementedException();
+            _userSupportRequestDal.Delete(userSupportRequest);
+            return new SuccessResult();
         }
     }
 }

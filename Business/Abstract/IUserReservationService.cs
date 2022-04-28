@@ -10,6 +10,6 @@ namespace Business.Abstract
         public IDataResult<UserReservation> GetUserReservation(int id);
         public IResult AddUserReservation(UserReservation userReservation);
         public IResult UpdateUserReservation(UserReservation userReservation);
-        public IResult DeleteUserReservation(int id);
+        public IResult DeleteUserReservation(UserReservation userReservation);
     }
 }

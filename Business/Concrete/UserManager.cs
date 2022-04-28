@@ -20,37 +20,35 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetUsers()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
         public IDataResult<User> GetUser(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<User>(_userDal.Get(i => i.Id == id));
         }
 
         public IResult AddUser(User user)
         {
-            throw new NotImplementedException();
+            _userDal.Add(user);
+            return new SuccessResult();
         }
 
         public IResult UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            _userDal.Update(user);
+            return new SuccessResult();
         }
 
-        public IResult DeleteUser(int id)
+        public IResult DeleteUser(User user)
         {
-            throw new NotImplementedException();
-        }
-
-        public IDataResult<User> GetUserByUserId(int id)
-        {
-            throw new NotImplementedException();
+            _userDal.Delete(user);
+            return new SuccessResult();
         }
 
         public IDataResult<User> GetUserByUserSchoolNumber(string number)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<User>(_userDal.Get(n => n.SchoolNumber == number));
         }
 
         public IDataResult<List<OperationClaim>> GetClaims(User user)

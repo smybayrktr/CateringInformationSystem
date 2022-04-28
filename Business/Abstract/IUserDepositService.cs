@@ -10,6 +10,6 @@ namespace Business.Abstract
         public IDataResult<UserDeposit> GetUserDeposit(int id);
         public IResult AddUserDeposit(UserDeposit userDeposit);
         public IResult UpdateUserDeposit(UserDeposit userDeposit);
-        public IResult DeleteUserDeposit(int id);
+        public IResult DeleteUserDeposit(UserDeposit userDeposit);
     }
 }
