@@ -4,7 +4,7 @@ using Entities.Concrete;
 
 namespace Business.Abstract
 {
-    public class UserSupportRequestManager: IUserSupportRequestService
+    public class UserSupportRequestManager : IUserSupportRequestService
     {
         public IDataResult<List<UserSupportRequest>> GetUserSupportRequests()
         {
@@ -16,12 +16,12 @@ namespace Business.Abstract
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserSupportRequest> AddUserSupportRequest(UserSupportRequest userSupportRequest)
+        public IResult AddUserSupportRequest(UserSupportRequest userSupportRequest)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserSupportRequest> UpdateUserSupportRequest(UserSupportRequest userSupportRequest)
+        public IResult UpdateUserSupportRequest(UserSupportRequest userSupportRequest)
         {
             throw new System.NotImplementedException();
         }

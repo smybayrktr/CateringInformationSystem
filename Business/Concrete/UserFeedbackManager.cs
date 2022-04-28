@@ -16,12 +16,12 @@ namespace Business.Abstract
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserFeedback> AddUserFeedback(UserFeedback userFeedback)
+        public IResult AddUserFeedback(UserFeedback userFeedback)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserFeedback> UpdateUserFeedback(UserFeedback userFeedback)
+        public IResult UpdateUserFeedback(UserFeedback userFeedback)
         {
             throw new System.NotImplementedException();
         }

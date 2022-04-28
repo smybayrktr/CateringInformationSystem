@@ -28,12 +28,12 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<User> AddUser(User user)
+        public IResult AddUser(User user)
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<User> UpdateUser(User user)
+        public IResult UpdateUser(User user)
         {
             throw new NotImplementedException();
         }

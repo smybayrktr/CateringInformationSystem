@@ -8,8 +8,8 @@ namespace Business.Abstract
     {
         public IDataResult<List<UserReservation>> GetUserReservations();
         public IDataResult<UserReservation> GetUserReservation(int id);
-        public IDataResult<UserReservation> AddUserReservation(UserReservation userReservation);
-        public IDataResult<UserReservation> UpdateUserReservation(UserReservation userReservation);
+        public IResult AddUserReservation(UserReservation userReservation);
+        public IResult UpdateUserReservation(UserReservation userReservation);
         public IResult DeleteUserReservation(int id);
     }
 }

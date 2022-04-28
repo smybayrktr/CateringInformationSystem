@@ -8,8 +8,8 @@ namespace Business.Abstract
     {
         public IDataResult<List<UserSupportRequest>> GetUserSupportRequests();
         public IDataResult<UserSupportRequest> GetUserSupportRequest(int id);
-        public IDataResult<UserSupportRequest> AddUserSupportRequest(UserSupportRequest userSupportRequest);
-        public IDataResult<UserSupportRequest> UpdateUserSupportRequest(UserSupportRequest userSupportRequest);
+        public IResult AddUserSupportRequest(UserSupportRequest userSupportRequest);
+        public IResult UpdateUserSupportRequest(UserSupportRequest userSupportRequest);
         public IResult DeleteUserSupportRequest(int id);
     }
 }

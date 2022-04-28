@@ -8,8 +8,8 @@ namespace Business.Abstract
     {
         public IDataResult<List<UserFeedback>> GetUserFeedbacks();
         public IDataResult<UserFeedback> GetUserFeedback(int id);
-        public IDataResult<UserFeedback> AddUserFeedback(UserFeedback userFeedback);
-        public IDataResult<UserFeedback> UpdateUserFeedback(UserFeedback userFeedback);
+        public IResult AddUserFeedback(UserFeedback userFeedback);
+        public IResult UpdateUserFeedback(UserFeedback userFeedback);
         public IResult DeleteUserFeedback(int id);
     }
 }

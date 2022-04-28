@@ -16,12 +16,12 @@ namespace Business.Abstract
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<SupportRequest> AddSupportRequest(SupportRequest supportRequest)
+        public IResult AddSupportRequest(SupportRequest supportRequest)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<SupportRequest> UpdateSupportRequest(SupportRequest supportRequest)
+        public IResult UpdateSupportRequest(SupportRequest supportRequest)
         {
             throw new System.NotImplementedException();
         }

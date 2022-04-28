@@ -31,7 +31,7 @@ namespace Business.Abstract
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<Deposit> GetDepositByUserId(int id)
+        public IResult GetDepositByUserId(int id)
         {
             throw new System.NotImplementedException();
         }
