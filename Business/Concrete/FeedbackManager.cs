@@ -1,6 +1,6 @@
 ﻿namespace Business.Abstract
 {
-    public interface IFeedBackService
+    public class FeedbackManager:IFeedbackService
     {
         
     }
