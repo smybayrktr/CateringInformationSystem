@@ -16,12 +16,12 @@ namespace Business.Abstract
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserReservation> AddUserReservation(UserReservation userReservation)
+        public IResult AddUserReservation(UserReservation userReservation)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserReservation> UpdateUserReservation(UserReservation userReservation)
+        public IResult UpdateUserReservation(UserReservation userReservation)
         {
             throw new System.NotImplementedException();
         }

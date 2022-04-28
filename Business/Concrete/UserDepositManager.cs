@@ -16,12 +16,12 @@ namespace Business.Abstract
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserDeposit> AddUserDeposit(UserDeposit userDeposit)
+        public IResult AddUserDeposit(UserDeposit userDeposit)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<UserDeposit> UpdateUserDeposit(UserDeposit userDeposit)
+        public IResult UpdateUserDeposit(UserDeposit userDeposit)
         {
             throw new System.NotImplementedException();
         }

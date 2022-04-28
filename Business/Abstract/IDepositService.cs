@@ -11,7 +11,7 @@ namespace Business.Abstract
         public IResult AddDeposit(Deposit deposit);
         public IResult UpdateDeposit(Deposit deposit);
         public IResult DeleteDeposit(int id);
-        public IDataResult<Deposit> GetDepositByUserId(int id);
+        public IResult GetDepositByUserId(int id);
         public IDataResult<Deposit> GetDepositByUserSchoolNumber(string number);
         
 
