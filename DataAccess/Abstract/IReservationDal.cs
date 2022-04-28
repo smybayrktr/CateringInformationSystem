@@ -1,6 +1,9 @@
-﻿namespace DataAccess.Abstract
+﻿using Core.DataAccess.EntityFramework;
+using Entities.Concrete;
+
+namespace DataAccess.Abstract
 {
-    public interface IReservationDal
+    public interface IReservationDal:IEntityRepository<Reservation>
     {
         
     }

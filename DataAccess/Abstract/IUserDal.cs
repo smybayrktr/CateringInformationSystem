@@ -1,9 +1,9 @@
 ﻿using Core.DataAccess.EntityFramework;
-using Entities.Concrete;
+using Core.Entities.Concrete;
 
 namespace DataAccess.Abstract
 {
-    public interface IUserDepositDal:IEntityRepository<UserDeposit>
+    public interface IUserDal:IEntityRepository<User>
     {
         
     }
