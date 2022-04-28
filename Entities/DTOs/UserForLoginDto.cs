@@ -2,9 +2,9 @@
 
 namespace Entities.DTOs
 {
-    public class UserDto:IDto
+    public class UserForLoginDto:IDto
     {
-        public string SchoolNumber { get; set; }
+        public string UserSchoolNumber { get; set; }
         public string Password { get; set; }
     }
 }

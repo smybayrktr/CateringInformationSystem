@@ -15,5 +15,6 @@ namespace Business.Abstract
         public IResult DeleteUser(int id);
         public IDataResult<User> GetUserByUserId(int id);
         public IDataResult<User> GetUserByUserSchoolNumber(string number);
+        public IDataResult<List<OperationClaim>> GetClaims(User user);
     }
 }
