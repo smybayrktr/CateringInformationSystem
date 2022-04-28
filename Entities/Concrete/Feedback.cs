@@ -3,10 +3,12 @@ using Core.Entities.Abstract;
 
 namespace Entities.Concrete
 {
-    public class Deposit:IEntity
+    public class Feedback:IEntity
     {
         public int Id { get; set; }
-        public double Amount { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
         public DateTime CreateDate { get; set; }
+        
     }
 }

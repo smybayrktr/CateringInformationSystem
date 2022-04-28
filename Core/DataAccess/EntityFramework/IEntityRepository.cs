@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using Core.Entities.Abstract;
 
-namespace Core.DataAccess
+namespace Core.DataAccess.EntityFramework
 {
     //T yerine kısıt vermezsek int bile yazabilirler o yüzden generic constraint(kısıtlama)koyarız.
     //T: class dedik (T referans tip olabilir.) 
