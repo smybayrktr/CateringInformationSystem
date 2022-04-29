@@ -11,7 +11,7 @@ namespace Business.Abstract
         public IResult AddFeedback(Feedback feedback);
         public IResult UpdateFeedback(Feedback feedback);
         public IResult DeleteFeedback(Feedback feedback);
-        public IDataResult<Feedback> GetFeedbackByUserId(int id);
-        public IDataResult<Feedback> GetFeedbackByUserSchoolNumber(string number);
+        public IDataResult<List<Feedback>> GetFeedbacksByUserId(int id);
+        public IDataResult<List<Feedback>> GetFeedbacksByUserSchoolNumber(string number);
     }
 }

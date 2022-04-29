@@ -11,7 +11,7 @@ namespace Business.Abstract
         public IResult AddReservation(Reservation reservation);
         public IResult UpdateReservation(Reservation reservation);
         public IResult DeleteReservation(Reservation reservation);
-        public IDataResult<Reservation> GetReservationByUserId(int id);
-        public IDataResult<Reservation> GetReservationByUserSchoolNumber(string number);
+        public IDataResult<List<Reservation>> GetReservationsByUserId(int id);
+        public IDataResult<List<Reservation>> GetReservationsByUserSchoolNumber(string number);
     }
 }

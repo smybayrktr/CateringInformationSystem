@@ -42,14 +42,16 @@ namespace Business.Abstract
             return new SuccessResult();
         }
 
-        public IDataResult<SupportRequest> GetSupportRequestByUserId(int id)
+        public IDataResult<List<SupportRequest>> GetSupportRequestsByUserId(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _supportRequestDal.GetSupportRequestsByUserId(id);
+            return new SuccessDataResult<List<SupportRequest>>(result);
         }
 
-        public IDataResult<SupportRequest> GetSupportRequestByUserSchoolNumber(string number)
+        public IDataResult<List<SupportRequest>> GetSupportRequestsByUserSchoolNumber(string number)
         {
-            throw new System.NotImplementedException();
+            var result = _supportRequestDal.GetSupportRequestsByUserSchoolNumber(number);
+            return new SuccessDataResult<List<SupportRequest>>(result);
         }
     }
 }

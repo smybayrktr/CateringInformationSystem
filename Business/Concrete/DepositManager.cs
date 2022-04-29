@@ -43,14 +43,16 @@ namespace Business.Abstract
             return new SuccessResult("Silindi");
         }
 
-        public IDataResult<Deposit> GetDepositByUserId(int id)
+        public IDataResult<List<Deposit>> GetDepositsByUserId(int id)
         {
-            throw new NotImplementedException();
+            var result = _depositDal.GetDepositsByUserId(id);
+            return new SuccessDataResult<List<Deposit>>(result);
         }
 
-        public IDataResult<Deposit> GetDepositByUserSchoolNumber(string number)
+        public IDataResult<List<Deposit>> GetDepositsByUserSchoolNumber(string number)
         {
-            throw new NotImplementedException();
+            var result = _depositDal.GetDepositsByUserSchoolNumber(number);
+            return new SuccessDataResult<List<Deposit>>(result);
         }
     }
 }

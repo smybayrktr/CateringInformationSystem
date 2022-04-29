@@ -42,12 +42,12 @@ namespace Business.Abstract
             return new SuccessResult();
         }
 
-        public IDataResult<Reservation> GetReservationByUserId(int id)
+        public IDataResult<List<Reservation>> GetReservationsByUserId(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataResult<Reservation> GetReservationByUserSchoolNumber(string number)
+        public IDataResult<List<Reservation>> GetReservationsByUserSchoolNumber(string number)
         {
             throw new System.NotImplementedException();
         }

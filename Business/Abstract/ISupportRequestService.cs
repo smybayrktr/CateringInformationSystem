@@ -11,7 +11,7 @@ namespace Business.Abstract
         public IResult AddSupportRequest(SupportRequest supportRequest);
         public IResult UpdateSupportRequest(SupportRequest supportRequest);
         public IResult DeleteSupportRequest(SupportRequest supportRequest);
-        public IDataResult<SupportRequest> GetSupportRequestByUserId(int id);
-        public IDataResult<SupportRequest> GetSupportRequestByUserSchoolNumber(string number);
+        public IDataResult<List<SupportRequest>> GetSupportRequestsByUserId(int id);
+        public IDataResult<List<SupportRequest>> GetSupportRequestsByUserSchoolNumber(string number);
     }
 }

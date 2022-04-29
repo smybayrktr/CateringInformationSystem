@@ -1,4 +1,5 @@
-﻿using Core.Entities.Abstract;
+﻿using System;
+using Core.Entities.Abstract;
 
 namespace Entities.Concrete
 {
@@ -8,5 +9,6 @@ namespace Entities.Concrete
         public string Title { get; set; }
         public string Body {get;set;}
         public bool IsCompleted { get; set; }
+        public DateTime CreateDate { get; set; }
     }
 }

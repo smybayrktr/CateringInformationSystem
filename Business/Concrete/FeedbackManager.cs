@@ -43,14 +43,16 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<Feedback> GetFeedbackByUserId(int id)
+        public IDataResult<List<Feedback>> GetFeedbacksByUserId(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _feedbackDal.GetFeedbacksByUserId(id);
+            return new SuccessDataResult<List<Feedback>>(result);
         }
 
-        public IDataResult<Feedback> GetFeedbackByUserSchoolNumber(string number)
+        public IDataResult<List<Feedback>> GetFeedbacksByUserSchoolNumber(string number)
         {
-            throw new System.NotImplementedException();
+            var result = _feedbackDal.GetFeedbacksByUserSchoolNumber(number);
+            return new SuccessDataResult<List<Feedback>>(result);
         }
     }
 }
