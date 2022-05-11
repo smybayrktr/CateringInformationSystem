@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
@@ -32,7 +33,7 @@ namespace Business.Concrete
                 Status = true
             };
             _userService.AddUser(user);
-            return new SuccessDataResult<User>(user, "Kayıt oldu");
+            return new SuccessDataResult<User>(user, Messages.Register);
         }
         
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
@@ -40,22 +41,22 @@ namespace Business.Concrete
             var userToCheck = _userService.GetUserByUserSchoolNumber(userForLoginDto.UserSchoolNumber);
             if (userToCheck == null)
             {
-                return new ErrorDataResult<User>("Kullanıcı bulunamadı");
+                return new ErrorDataResult<User>(Messages.UserNotFound);
             }
         
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.Data.PasswordHash,userToCheck.Data.PasswordSalt))
             {
-                return new ErrorDataResult<User>("Parola hatası");
+                return new ErrorDataResult<User>(Messages.ErrorPassword);
             }
         
-            return new SuccessDataResult<User>(userToCheck.Data, "Başarılı giriş");
+            return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessLogin);
         }
         
         public IResult UserExists(string userSchoolNumber)
         {
             if (_userService.GetUserByUserSchoolNumber(userSchoolNumber) != null)
             {
-                return new ErrorResult("Kullanıcı mevcut");
+                return new ErrorResult(Messages.UserExists);
             }
             return new SuccessResult();
         }
@@ -64,7 +65,7 @@ namespace Business.Concrete
         {
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims.Data);
-            return new SuccessDataResult<AccessToken>(accessToken, "Token oluşturuldu");
+            return new SuccessDataResult<AccessToken>(accessToken, Messages.CreatedToken);
         }
     }
 }
