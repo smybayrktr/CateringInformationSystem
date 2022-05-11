@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (var context = new CateringISContext())
             {
-                var result = from feedback in context.Feedbacks
+                var result = from feedback in context.Feedbacks 
                     join userFeedback in context.UserFeedbacks on feedback.Id equals userFeedback.FeedbackId
                     join user in context.Users on userFeedback.UserId equals user.Id
                     select new Feedback()
