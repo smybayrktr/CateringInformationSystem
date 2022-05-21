@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
+using DataAccess.Concrete.EntityFramework;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI
 {
@@ -16,7 +19,7 @@ namespace WebAPI
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().MigrateDatabase().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -31,4 +34,30 @@ namespace WebAPI
                     webBuilder.UseStartup<Startup>();
                 });
     }
+    public static class MigrationgManager
+    {
+        public static IHost MigrateDatabase(this IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                try
+                {
+                    var orderContext = scope.ServiceProvider.GetRequiredService<CateringISContext>();
+
+                    if (orderContext.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                    {
+                        orderContext.Database.Migrate();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+
+            return host;
+        }
+    }
+   
 }
+

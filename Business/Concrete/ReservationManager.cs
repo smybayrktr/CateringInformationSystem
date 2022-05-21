@@ -50,7 +50,7 @@ namespace Business.Abstract
 
         public IDataResult<List<Reservation>> GetReservationsByUserSchoolNumber(string number)
         {
-            return new SuccessDataResult<List<Reservation>>(_reservationDal.GetReservationsByUserSchoolNumber(number),Messages.Listed)
+            return new SuccessDataResult<List<Reservation>>(_reservationDal.GetReservationsByUserSchoolNumber(number), Messages.Listed);
         }
     }
 }
