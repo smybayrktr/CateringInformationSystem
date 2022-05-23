@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Business.Constants;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace Business.Abstract
 {
     public class DepositManager:IDepositService
     {
         private IDepositDal _depositDal;
+        private IUserDepositDal _userDepositDal;
 
-        public DepositManager(IDepositDal depositDal)
+        public DepositManager(IDepositDal depositDal, IUserDepositDal userDepositDal)
         {
             _depositDal = depositDal;
+            _userDepositDal = userDepositDal;
         }
 
         public IDataResult<List<Deposit>> GetDeposits()
@@ -26,9 +30,16 @@ namespace Business.Abstract
             return new SuccessDataResult<Deposit>(_depositDal.Get(p => p.Id == id), Messages.Listed);
         }
 
-        public IResult AddDeposit(Deposit deposit)
+        public IResult AddDeposit(Deposit deposit,User user)
         {
             _depositDal.Add(deposit);
+            var userDeposit = new UserDeposit
+            {
+                UserId = user.Id,
+                UserSchoolNumber = user.SchoolNumber,
+                DepositId = deposit.Id
+            };
+            _userDepositDal.Add(userDeposit);
             return new SuccessResult(Messages.Added);
         }
 

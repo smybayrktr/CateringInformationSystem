@@ -1,7 +1,10 @@
-﻿using Business.Abstract;
+﻿using System.Security.Claims;
+using Business.Abstract;
+using Core.Utilities.IoC;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebAPI.Controllers
 {
@@ -10,10 +13,14 @@ namespace WebAPI.Controllers
     public class DepositController : ControllerBase
     {
         IDepositService _depositService;
+        private IUserService _userService;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public DepositController(IDepositService depositService)
+        public DepositController(IDepositService depositService,IUserService userService)
         {
             _depositService = depositService;
+            _userService = userService;
+            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
         }
 
         [HttpGet("getall")]
@@ -30,7 +37,18 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add(Deposit deposit)
         {
-            var result = _depositService.AddDeposit(deposit);
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (userId==null)
+            {
+                return BadRequest();
+            }
+
+            var userCheck = _userService.GetUser(int.Parse(userId));
+            if (userCheck.Data==null)
+            {
+                return BadRequest(userCheck);
+            }
+            var result = _depositService.AddDeposit(deposit,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);

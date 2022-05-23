@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using System.Text;
+using Business.Abstract;
 using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
@@ -28,9 +29,11 @@ namespace Business.Concrete
                 Email = userForRegisterDto.Email,
                 FirstName = userForRegisterDto.FirstName,
                 LastName = userForRegisterDto.LastName,
-                PasswordHash = passwordHash,
+                HashPassword = passwordHash,
                 PasswordSalt = passwordSalt,
-                Status = true
+                SchoolNumber = userForRegisterDto.UserSchoolNumber,
+                Status = true,
+                UserName = userForRegisterDto.Email
             };
             _userService.AddUser(user);
             return new SuccessDataResult<User>(user, Messages.Register);
@@ -43,8 +46,8 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
-        
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.Data.PasswordHash,userToCheck.Data.PasswordSalt))
+            byte[] hash = Encoding.ASCII.GetBytes(userToCheck.Data.PasswordHash);
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, hash,userToCheck.Data.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Messages.ErrorPassword);
             }

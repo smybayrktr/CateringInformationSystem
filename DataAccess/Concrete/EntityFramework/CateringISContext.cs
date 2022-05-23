@@ -1,15 +1,19 @@
 ﻿using Core.Entities.Concrete;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class CateringISContext:DbContext
+    public class CateringISContext:IdentityDbContext<User,UserRole,int>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;
-                 Database=CateringISDb; Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"
+              Server=localhost,1433;
+              Initial Catalog=CateringDB;
+              User Id=sa;
+              Password=Abc12345678+");
       
         }
         public DbSet<Deposit> Deposits { get; set; }
