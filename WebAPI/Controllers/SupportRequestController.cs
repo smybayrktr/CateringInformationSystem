@@ -1,6 +1,9 @@
-﻿using Business.Abstract;
+﻿using System.Threading.Tasks;
+using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -10,16 +13,20 @@ namespace WebAPI.Controllers
     public class SupportRequestController : ControllerBase
     {
         ISupportRequestService _supportRequestService;
+        private IUserService _userService;
+        private UserManager<User> _userManager;
 
-        public SupportRequestController(ISupportRequestService supportRequestService)
+        public SupportRequestController(ISupportRequestService supportRequestService, IUserService userService, UserManager<User> userManager)
         {
             _supportRequestService = supportRequestService;
+            _userService = userService;
+            _userManager = userManager;
         }
 
         [HttpGet("getall")]
-        public IActionResult GetSupportRequests()
+        public async Task<IActionResult> GetSupportRequests()
         {
-            var result = _supportRequestService.GetSupportRequests();
+            var result = await _supportRequestService.GetSupportRequests();
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -27,9 +34,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getsupportrequest")]
-        public IActionResult GetSupportRequest(int id)
+        public async Task<IActionResult> GetSupportRequest(int id)
         {
-            var result = _supportRequestService.GetSupportRequest(id);
+            var result = await _supportRequestService.GetSupportRequest(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -37,9 +44,20 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPost("add")]
-        public IActionResult AddSupportRequest(SupportRequest supportRequest)
+        public async Task<IActionResult> AddSupportRequest(SupportRequest supportRequest)
         {
-            var result = _supportRequestService.AddSupportRequest(supportRequest);
+            var userId = _userManager.GetUserId(User);
+            if (userId==null)
+            {
+                return BadRequest();
+            }
+
+            var userCheck = await _userService.GetUser(int.Parse(userId));
+            if (userCheck.Data==null)
+            {
+                return BadRequest(userCheck);
+            }
+            var result = await _supportRequestService.AddSupportRequest(supportRequest,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -47,9 +65,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPut("update")]
-        public IActionResult UpdateSupportRequest(SupportRequest supportRequest)
+        public async Task<IActionResult> UpdateSupportRequest(SupportRequest supportRequest)
         {
-            var result = _supportRequestService.UpdateSupportRequest(supportRequest);
+            var result = await _supportRequestService.UpdateSupportRequest(supportRequest);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -57,9 +75,20 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpDelete("delete")]
-        public IActionResult DeleteSupportRequest(SupportRequest supportRequest)
+        public async Task<IActionResult> DeleteSupportRequest(SupportRequest supportRequest)
         {
-            var result = _supportRequestService.DeleteSupportRequest(supportRequest);
+            var userId = _userManager.GetUserId(User);
+            if (userId==null)
+            {
+                return BadRequest();
+            }
+
+            var userCheck = await _userService.GetUser(int.Parse(userId));
+            if (userCheck.Data==null)
+            {
+                return BadRequest(userCheck);
+            }
+            var result = await _supportRequestService.DeleteSupportRequest(supportRequest,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -68,9 +97,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getsupportrequestsbyuserid")]
-        public IActionResult GetSupportRequestsByUserId(int id)
+        public async Task<IActionResult> GetSupportRequestsByUserId(int id)
         {
-            var result = _supportRequestService.GetSupportRequestsByUserId(id);
+            var result = await _supportRequestService.GetSupportRequestsByUserId(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -78,9 +107,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getsupportrequestsbyuserschoolnumber")]
-        public IActionResult GetSupportRequestsByUserSchoolNumber(string number)
+        public async Task<IActionResult> GetSupportRequestsByUserSchoolNumber(string number)
         {
-            var result = _supportRequestService.GetSupportRequestsByUserSchoolNumber(number);
+            var result = await _supportRequestService.GetSupportRequestsByUserSchoolNumber(number);
             if (!result.Success)
             {
                 return BadRequest(result);

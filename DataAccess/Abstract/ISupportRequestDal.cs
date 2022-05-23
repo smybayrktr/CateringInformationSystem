@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.DataAccess.EntityFramework;
 using Entities.Concrete;
 
@@ -6,7 +7,7 @@ namespace DataAccess.Abstract
 {
     public interface ISupportRequestDal:IEntityRepository<SupportRequest>
     {
-        List<SupportRequest> GetSupportRequestsByUserId(int id);
-        List<SupportRequest> GetSupportRequestsByUserSchoolNumber(string number);
+        Task<List<SupportRequest>> GetSupportRequestsByUserId(int id);
+        Task<List<SupportRequest>> GetSupportRequestsByUserSchoolNumber(string number);
     }
 }

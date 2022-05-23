@@ -1,6 +1,8 @@
-﻿using Business.Abstract;
+﻿using System.Threading.Tasks;
+using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -9,17 +11,20 @@ namespace WebAPI.Controllers
     [ApiController]
     public class FeedbackController : ControllerBase
     {
-        IFeedbackService _feedbackService;
+        private IFeedbackService _feedbackService;
+        private UserManager<User> _userManager;
+        private IUserService _userService;
 
-        public FeedbackController(IFeedbackService feedbackService)
+        public FeedbackController(IFeedbackService feedbackService, UserManager<User> userManager)
         {
             _feedbackService = feedbackService;
+            _userManager = userManager;
         }
 
         [HttpGet("getall")]
-        public IActionResult GetFeedbacks()
+        public async Task<IActionResult> GetFeedbacks()
         {
-            var result = _feedbackService.GetFeedbacks();
+            var result = await _feedbackService.GetFeedbacks();
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -27,9 +32,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getfeedback")]
-        public IActionResult GetFeedback(int id)
+        public async Task<IActionResult> GetFeedback(int id)
         {
-            var result = _feedbackService.GetFeedback(id);
+            var result = await _feedbackService.GetFeedback(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -37,9 +42,20 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPost("add")]
-        public IActionResult AddFeedback(Feedback feedback)
+        public async Task<IActionResult> AddFeedback(Feedback feedback)
         {
-            var result = _feedbackService.AddFeedback(feedback);
+            var userId = _userManager.GetUserId(User);
+            if (userId==null)
+            {
+                return BadRequest();
+            }
+
+            var userCheck = await _userService.GetUser(int.Parse(userId));
+            if (userCheck.Data==null)
+            {
+                return BadRequest(userCheck);
+            }
+            var result = await _feedbackService.AddFeedback(feedback,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -47,9 +63,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPut("update")]
-        public IActionResult UpdateFeedback(Feedback feedback)
+        public async Task<IActionResult> UpdateFeedback(Feedback feedback)
         {
-            var result = _feedbackService.UpdateFeedback(feedback);
+            var result = await _feedbackService.UpdateFeedback(feedback);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -57,9 +73,20 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpDelete("delete")]
-        public IActionResult DeleteFeedback(Feedback feedback)
+        public async Task<IActionResult> DeleteFeedback(Feedback feedback)
         {
-            var result = _feedbackService.DeleteFeedback(feedback);
+            var userId = _userManager.GetUserId(User);
+            if (userId==null)
+            {
+                return BadRequest();
+            }
+
+            var userCheck = await _userService.GetUser(int.Parse(userId));
+            if (userCheck.Data==null)
+            {
+                return BadRequest(userCheck);
+            }
+            var result = await _feedbackService.DeleteFeedback(feedback,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -68,9 +95,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getfeedbacksbyuserid")]
-        public IActionResult GetFeedbacksByUserId(int id)
+        public async Task<IActionResult> GetFeedbacksByUserId(int id)
         {
-            var result= _feedbackService.GetFeedbacksByUserId(id);
+            var result= await _feedbackService.GetFeedbacksByUserId(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -78,9 +105,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getfeedbacksbyuserschoolnumber")]
-        public IActionResult GetFeedbacksByUserSchoolNumber(string number)
+        public async Task<IActionResult> GetFeedbacksByUserSchoolNumber(string number)
         {
-            var result = _feedbackService.GetFeedbacksByUserSchoolNumber(number);
+            var result = await _feedbackService.GetFeedbacksByUserSchoolNumber(number);
             if (!result.Success)
             {
                 return BadRequest(result);

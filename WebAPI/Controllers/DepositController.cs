@@ -1,10 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System.Threading.Tasks;
 using Business.Abstract;
-using Core.Utilities.IoC;
+using Core.Entities.Concrete;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace WebAPI.Controllers
 {
@@ -12,21 +11,21 @@ namespace WebAPI.Controllers
     [ApiController]
     public class DepositController : ControllerBase
     {
-        IDepositService _depositService;
+        private IDepositService _depositService;
         private IUserService _userService;
-        private IHttpContextAccessor _httpContextAccessor;
+        private UserManager<User> _userManager;
 
-        public DepositController(IDepositService depositService,IUserService userService)
+        public DepositController(IDepositService depositService,IUserService userService, UserManager<User> userManager)
         {
             _depositService = depositService;
             _userService = userService;
-            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
+            _userManager = userManager;
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var result = _depositService.GetDeposits();
+            var result = await _depositService.GetDeposits();
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -35,20 +34,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Deposit deposit)
+        public async Task<IActionResult> Add(Deposit deposit)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = _userManager.GetUserId(User);
             if (userId==null)
             {
                 return BadRequest();
             }
 
-            var userCheck = _userService.GetUser(int.Parse(userId));
+            var userCheck = await _userService.GetUser(int.Parse(userId));
             if (userCheck.Data==null)
             {
                 return BadRequest(userCheck);
             }
-            var result = _depositService.AddDeposit(deposit,userCheck.Data);
+            var result = await _depositService.AddDeposit(deposit,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -56,9 +55,20 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpDelete("delete")]
-        public IActionResult Delete(Deposit deposit)
+        public async Task<IActionResult> Delete(Deposit deposit)
         {
-            var result = _depositService.DeleteDeposit(deposit);
+            var userId = _userManager.GetUserId(User);
+            if (userId==null)
+            {
+                return BadRequest();
+            }
+
+            var userCheck = await _userService.GetUser(int.Parse(userId));
+            if (userCheck.Data==null)
+            {
+                return BadRequest(userCheck);
+            }
+            var result = await _depositService.DeleteDeposit(deposit,userCheck.Data);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -66,9 +76,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPut("update")]
-        public IActionResult Update(Deposit deposit)
+        public async Task<IActionResult> Update(Deposit deposit)
         {
-            var result = _depositService.UpdateDeposit(deposit);
+            var result = await _depositService.UpdateDeposit(deposit);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -76,9 +86,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getdeposit")]
-        public IActionResult GetDeposit(int id)
+        public async Task<IActionResult> GetDeposit(int id)
         {
-            var result = _depositService.GetDeposit(id);
+            var result = await _depositService.GetDeposit(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -86,9 +96,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getdepositsbyuserid")]
-        public IActionResult GetDepositsByUserId(int id)
+        public async Task<IActionResult> GetDepositsByUserId(int id)
         {
-            var result = _depositService.GetDepositsByUserId(id);
+            var result = await _depositService.GetDepositsByUserId(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -96,9 +106,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getdepositsbyuserschoolnumber")]
-        public IActionResult GetDepositsByUserSchoolNumber(string number)
+        public async Task<IActionResult> GetDepositsByUserSchoolNumber(string number)
         {
-            var result = _depositService.GetDepositsByUserSchoolNumber(number);
+            var result = await _depositService.GetDepositsByUserSchoolNumber(number);
             if (!result.Success)
             {
                 return BadRequest(result);

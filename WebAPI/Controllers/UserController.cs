@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using System.Threading.Tasks;
+using Business.Abstract;
 using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var result = _userService.GetUsers();
+            var result = await _userService.GetUsers();
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -28,9 +29,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(User user)
+        public async Task<IActionResult> Add(User user)
         {
-            var result = _userService.AddUser(user);
+            var result = await _userService.AddUser(user);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -38,9 +39,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpDelete("delete")]
-        public IActionResult Delete(User user)
+        public async Task<IActionResult> Delete(User user)
         {
-            var result = _userService.DeleteUser(user);
+            var result = await _userService.DeleteUser(user);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -48,9 +49,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPut("update")]
-        public IActionResult Update(User user)
+        public async Task<IActionResult> Update(User user)
         {
-            var result = _userService.UpdateUser(user);
+            var result = await _userService.UpdateUser(user);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -58,9 +59,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getuser")]
-        public IActionResult GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            var result = _userService.GetUser(id);
+            var result = await _userService.GetUser(id);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -68,9 +69,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getusersbyuserschoolnumber")]
-        public IActionResult GetUserByUserSchoolNumber(string number)
+        public async Task<IActionResult> GetUserByUserSchoolNumber(string number)
         {
-            var result = _userService.GetUserByUserSchoolNumber(number);
+            var result = await _userService.GetUserByUserSchoolNumber(number);
             if (!result.Success)
             {
                 return BadRequest(result);
@@ -78,9 +79,9 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpGet("getclaims")]
-        public IActionResult GetClaims(User user)
+        public async Task<IActionResult> GetClaims(User user)
         {
-            var result = _userService.GetClaims(user);
+            var result = await _userService.GetClaims(user);
             if (!result.Success)
             {
                 return BadRequest(result);

@@ -1,44 +1,46 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfDepositDal:EfEntityRepositoryBase<Deposit, CateringISContext>,IDepositDal
     {
-        public List<Deposit> GetDepositsByUserId(int id)
+        public async Task<List<Deposit>> GetDepositsByUserId(int id)
         {
             using (var context = new CateringISContext())
             {
                 var result = from deposit in context.Deposits
                     join userDeposit in context.UserDeposits on deposit.Id equals userDeposit.DepositId
-                        join user in context.Users on userDeposit.UserId equals user.Id
+                        where userDeposit.UserId == id
                         select new Deposit()
                         {
                             Id = deposit.Id,
                             Amount = deposit.Amount,
                             CreateDate = deposit.CreateDate
                         };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<Deposit> GetDepositsByUserSchoolNumber(string number)
+        public async Task<List<Deposit>> GetDepositsByUserSchoolNumber(string number)
         {
             using (var context = new CateringISContext())
             {
                 var result = from deposit in context.Deposits
                     join userDeposit in context.UserDeposits on deposit.Id equals userDeposit.DepositId
-                    join user in context.Users on userDeposit.UserSchoolNumber equals user.SchoolNumber
+                    where userDeposit.UserSchoolNumber == number
                     select new Deposit()
                     {
                         Id = deposit.Id,
                         Amount = deposit.Amount,
                         CreateDate = deposit.CreateDate
                     };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

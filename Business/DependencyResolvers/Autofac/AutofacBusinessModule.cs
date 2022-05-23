@@ -29,6 +29,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<SupportRequestManager>().As<ISupportRequestService>();
             builder.RegisterType<EfSupportRequestDal>().As<ISupportRequestDal>();
 
+            builder.RegisterType<EfUserDepositDal>().As<IUserDepositDal>();
+            builder.RegisterType<EfUserFeedbackDal>().As<IUserFeedbackDal>();
+            builder.RegisterType<EfUserReservationDal>().As<IUserReservationDal>();
+            builder.RegisterType<EfUserSupportRequestDal>().As<IUserSupportRequestDal>();
+
+            
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 

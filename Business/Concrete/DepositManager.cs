@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Business.Abstract;
 using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
-namespace Business.Abstract
+namespace Business.Concrete
 {
     public class DepositManager:IDepositService
     {
@@ -20,50 +20,54 @@ namespace Business.Abstract
             _userDepositDal = userDepositDal;
         }
 
-        public IDataResult<List<Deposit>> GetDeposits()
+        public async Task<IDataResult<List<Deposit>>> GetDeposits()
         {
-            return new SuccessDataResult<List<Deposit>>(_depositDal.GetAll(), Messages.Listed);
+            var result = await _depositDal.GetAll();
+            return new SuccessDataResult<List<Deposit>>(result, Messages.Listed);
         }
 
-        public IDataResult<Deposit> GetDeposit(int id)
+        public async Task<IDataResult<Deposit>> GetDeposit(int id)
         {
-            return new SuccessDataResult<Deposit>(_depositDal.Get(p => p.Id == id), Messages.Listed);
+            var result = await _depositDal.Get(p => p.Id == id);
+            return new SuccessDataResult<Deposit>(result, Messages.Listed);
         }
 
-        public IResult AddDeposit(Deposit deposit,User user)
+        public async Task<IResult> AddDeposit(Deposit deposit,User user)
         {
-            _depositDal.Add(deposit);
+            await _depositDal.Add(deposit);
             var userDeposit = new UserDeposit
             {
                 UserId = user.Id,
                 UserSchoolNumber = user.SchoolNumber,
                 DepositId = deposit.Id
             };
-            _userDepositDal.Add(userDeposit);
+            await _userDepositDal.Add(userDeposit);
             return new SuccessResult(Messages.Added);
         }
 
-        public IResult UpdateDeposit(Deposit deposit)
+        public async Task<IResult> UpdateDeposit(Deposit deposit)
         {
-            _depositDal.Update(deposit);
+            await _depositDal.Update(deposit);
             return new SuccessResult(Messages.Updated);
         }
 
-        public IResult DeleteDeposit(Deposit deposit)
+        public async Task<IResult> DeleteDeposit(Deposit deposit,User user)
         {
-            _depositDal.Delete(deposit);
+            await _depositDal.Delete(deposit);
+            var depositToDelete = await _userDepositDal.Get(p => p.DepositId == deposit.Id && p.UserId == user.Id);
+            await _userDepositDal.Delete(depositToDelete);
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<List<Deposit>> GetDepositsByUserId(int id)
+        public async Task<IDataResult<List<Deposit>>> GetDepositsByUserId(int id)
         {
-            var result = _depositDal.GetDepositsByUserId(id);
+            var result = await _depositDal.GetDepositsByUserId(id);
             return new SuccessDataResult<List<Deposit>>(result, Messages.Listed);
         }
 
-        public IDataResult<List<Deposit>> GetDepositsByUserSchoolNumber(string number)
+        public async Task<IDataResult<List<Deposit>>> GetDepositsByUserSchoolNumber(string number)
         {
-            var result = _depositDal.GetDepositsByUserSchoolNumber(number);
+            var result = await _depositDal.GetDepositsByUserSchoolNumber(number);
             return new SuccessDataResult<List<Deposit>>(result, Messages.Listed);
         }
     }

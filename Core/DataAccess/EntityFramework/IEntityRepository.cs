@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 using Core.Entities.Abstract;
 
 namespace Core.DataAccess.EntityFramework
@@ -13,11 +14,13 @@ namespace Core.DataAccess.EntityFramework
     //T: new () dedik ki IEntityin kendisi olmasın. new lenebilir olsun dedik.
     public interface IEntityRepository<T> where T: class, IEntity, new()
     {
-        List<T> GetAll(Expression<Func<T,bool>> filter=null); // Filtre vermezse Tüm listeyi getirir. Verirsede filtreye uyan verileri getirir
-        T Get(Expression<Func<T, bool>> filter); //Burda filtre vermek zorunlu
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task<List<T>>
+            GetAll(Expression<Func<T, bool>> filter = null); // Filtre vermezse Tüm listeyi getirir. Verirsede filtreye uyan verileri getirir
+
+        Task<T> Get(Expression<Func<T, bool>> filter); //Burda filtre vermek zorunlu
+        Task Add(T entity);
+        Task Update(T entity);
+        Task Delete(T entity);
 
     }
 }

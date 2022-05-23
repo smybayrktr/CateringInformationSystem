@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfSupportRequestDal:EfEntityRepositoryBase<SupportRequest, CateringISContext>,ISupportRequestDal
     {
-        public List<SupportRequest> GetSupportRequestsByUserId(int id)
+        public async Task<List<SupportRequest>> GetSupportRequestsByUserId(int id)
         {
             using (var context = new CateringISContext())
             {
                 var result = from supportRequest in context.SupportRequests
                     join userSupportRequest in context.UserSupportRequests on supportRequest.Id equals userSupportRequest.SupportRequestId
-                    join user in context.Users on userSupportRequest.UserId equals user.Id
+                    where userSupportRequest.UserId == id
                     select new SupportRequest()
                     {
                         Id = supportRequest.Id,
@@ -23,17 +25,17 @@ namespace DataAccess.Concrete.EntityFramework
                         Body = supportRequest.Body,
                         IsCompleted = supportRequest.IsCompleted
                     };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
 
-        public List<SupportRequest> GetSupportRequestsByUserSchoolNumber(string number)
+        public async Task<List<SupportRequest>> GetSupportRequestsByUserSchoolNumber(string number)
         {
             using (var context = new CateringISContext())
             {
                 var result = from supportRequest in context.SupportRequests
                     join userSupportRequest in context.UserSupportRequests on supportRequest.Id equals userSupportRequest.SupportRequestId
-                    join user in context.Users on userSupportRequest.UserSchoolNumber equals user.SchoolNumber
+                    where userSupportRequest.UserSchoolNumber == number
                     select new SupportRequest()
                     {
                         Id = supportRequest.Id,
@@ -42,7 +44,7 @@ namespace DataAccess.Concrete.EntityFramework
                         Body = supportRequest.Body,
                         IsCompleted = supportRequest.IsCompleted
                     };
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }
